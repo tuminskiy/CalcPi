@@ -27,6 +27,10 @@ auto create_test_runner(std::size_t MAX_RUNS, F test_case) {
   };
 }
 
+double caluclate_pi(std::size_t n_success, std::size_t max_runs) {
+  return 4.0 * n_success / static_cast<double>(max_runs);
+}
+
 template <class T>
 auto input(std::string_view msg) {
   T value;
@@ -37,7 +41,6 @@ auto input(std::string_view msg) {
   return value;
 }
 
-
 int main() {
   const double x = input<double>("Input x: ");
   const double y = input<double>("Input y: ");
@@ -46,7 +49,7 @@ int main() {
   auto x_gen = create_random_generator(x - r, x + r);
   auto y_gen = create_random_generator(y - r, y + r);
 
-  constexpr std::size_t MAX_TESTS = 10'000'000;
+  constexpr std::size_t MAX_RUNS = 10'000'000;
 
   auto circle_test = [&]() {
     const double x_ = std::pow(x_gen() - x, 2);
@@ -56,11 +59,11 @@ int main() {
     return x_ + y_ - r_ < std::numeric_limits<double>::epsilon();
   };
 
-  auto test_runner = create_test_runner(MAX_TESTS, circle_test);
+  auto test_runner = create_test_runner(MAX_RUNS, circle_test);
 
   const std::size_t n_success = test_runner();
 
-  std::cout << "Pi: " << 4.0 * n_success / static_cast<double>(MAX_TESTS);
+  std::cout << "Pi: " << caluclate_pi(n_success, MAX_RUNS);
 
   return 0;
 }
