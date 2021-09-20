@@ -51,10 +51,9 @@ int main() {
 
   constexpr std::size_t MAX_RUNS = 10'000'000;
 
-  auto circle_test = [&]() {
+  auto circle_test = [&x_gen = x_gen, &y_gen = y_gen, x, y, r_ = r*r]() {
     const double x_ = std::pow(x_gen() - x, 2);
     const double y_ = std::pow(y_gen() - y, 2);
-    const double r_ = r*r;
     
     return x_ + y_ - r_ < std::numeric_limits<double>::epsilon();
   };
