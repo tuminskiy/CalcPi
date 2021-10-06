@@ -158,7 +158,13 @@ int main() {
       }
     );
 
-    mid_results.push_back(std::abs( ((sum / static_cast<double>(MAX_RUNS.size())) - M_PI) / M_PI ));
+#ifdef RUN_PI
+    const double value = M_PI;
+#else
+    const double value = 6;
+#endif
+
+    mid_results.push_back(std::abs( ((sum / static_cast<double>(MAX_RUNS.size())) - value) / value ));
   }
 
   std::cout << "Mid results: ";
