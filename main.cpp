@@ -125,13 +125,20 @@ int main() {
   }
 
   std::vector<std::vector<double>> epsilons;
-  epsilons.reserve(5);
+  epsilons.reserve(MAX_RUNS.size());
 
   for (const std::vector<double>& seria : series) {
     std::vector<double> epsilon(MAX_RUNS.size());
 
     std::transform(std::cbegin(seria), std::cend(seria), std::begin(epsilon),
-      [](double value) { return std::abs( (value - M_PI) / M_PI ); }
+      [](double value) { 
+#ifdef RUN_PI
+        const double div = M_PI;
+#else
+        const double div = 6;
+#endif
+        return std::abs( (value - div) / div );
+      }
     );
 
     epsilons.push_back(std::move(epsilon));
